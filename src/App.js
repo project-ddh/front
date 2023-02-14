@@ -1,6 +1,5 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import ReactTomatoTalk from "react-tomato-talk";
 
 /**
  * `<Router>` :  <BrowserRouter>의 줄임말이며, 최상위 컴포넌트를 감싸준다.
@@ -23,7 +22,7 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/main" element={<Main />} />
-      <Route path="/event/:productId" element={<Event />} />
+      <Route path="/event/:raffleId" element={<Event />} />
     </Routes>
   );
 };

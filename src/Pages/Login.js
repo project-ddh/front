@@ -9,6 +9,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const theme = createTheme();
+
 export default function Login() {
   const navigate = useNavigate();
   const handleSubmit = (event) => {
@@ -35,6 +36,9 @@ export default function Login() {
       )
       .then(function (response) {
         localStorage.setItem("token", response.headers.authorization);
+        localStorage.setItem("userId", response.data);
+        console.log("로그인 res.data", response.data);
+
         navigate("/main");
       })
       .catch(function (error) {

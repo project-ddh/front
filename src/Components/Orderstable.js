@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // material-ui
 import {
@@ -11,23 +11,8 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-
-function createData(userId, Bid, time) {
-  return { userId, Bid, time };
-}
-
-const rows = [
-  createData("user1", "49,000", "10:13:24"),
-  createData("user2", "44,000", "10:13:15"),
-  createData("user3", "50,000", "10:13:56"),
-  createData("user5", "40,000", "10:13:12"),
-  createData("user6", "38,000", "10:13:03"),
-  createData("user1000", "45,000", "10:13:22"),
-  createData("user10000", "60,000", "10:14:02"),
-  createData("user1231414", "37,000", "10:13:00"),
-  createData("user314", "61,000", "10:14:12"),
-  createData("user56756", "70,000", "10:15:01"),
-];
+import { io } from "socket.io-client";
+const socket = io.connect("http://localhost:3001/raffles");
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -62,19 +47,19 @@ function stableSort(array, comparator) {
 const headCells = [
   {
     id: "userId",
-    align: "left",
+    align: "center",
     disablePadding: false,
     label: "입찰자 ID",
   },
   {
     id: "Bid",
-    align: "left",
+    align: "center",
     disablePadding: true,
     label: "입찰금액(₩)",
   },
   {
     id: "time",
-    align: "left",
+    align: "center",
     disablePadding: false,
     label: "Time",
   },
@@ -106,11 +91,42 @@ OrderTableHead.propTypes = {
 };
 
 // ==============================|| ORDER TABLE ||============================== //
+function createData(userId, Bid, time) {
+  const formattedTime = formatTimestamp(time);
+  return { userId, Bid, time: formattedTime };
+}
+
+function formatTimestamp(timestamp) {
+  const date = new Date(timestamp);
+  const dateString = date.toLocaleDateString("ko-KR", {
+    year: "2-digit",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const timeString = date.toLocaleTimeString("ko-KR", {
+    hour12: false,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+  return `${dateString} ${timeString}`;
+}
 
 export default function OrderTable() {
   const [order] = useState("desc");
   const [orderBy] = useState("time");
+  const [rows, setRows] = useState([]);
 
+  useEffect(() => {
+    socket.on("bidList", (data) => {
+      const newRow = createData(data.data.user, data.data.amount, data.time);
+      setRows((prevState) => [...prevState, newRow]);
+    });
+
+    return () => {
+      socket.off("bidList");
+    };
+  }, []);
   return (
     <Box>
       <TableContainer
@@ -123,15 +139,17 @@ export default function OrderTable() {
         <Table aria-labelledby="tableTitle">
           <OrderTableHead order={order} orderBy={orderBy} />
           <TableBody>
-            {stableSort(rows, getComparator(order, orderBy)).map((row) => {
-              return (
-                <TableRow key={row.userId}>
-                  <TableCell align="left">{row.userId}</TableCell>
-                  <TableCell align="left">₩ {row.Bid}</TableCell>
-                  <TableCell align="left">{row.time}</TableCell>
-                </TableRow>
-              );
-            })}
+            {stableSort(rows, getComparator(order, orderBy))
+              .slice(0, 10)
+              .map((row) => {
+                return (
+                  <TableRow key={row.userId}>
+                    <TableCell align="left">{row.userId}</TableCell>
+                    <TableCell align="center">₩ {row.Bid}</TableCell>
+                    <TableCell align="left">{row.time}</TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
