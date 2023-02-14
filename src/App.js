@@ -1,5 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import ReactTomatoTalk from "react-tomato-talk";
+
 /**
  * `<Router>` :  <BrowserRouter>의 줄임말이며, 최상위 컴포넌트를 감싸준다.
  * `<Switch>` : Switch 되면서 Route마다 조건을 검사하며 페이지를 렌더링한다. 한 페이지가 렌더링 됐을 때는 다른 Route는 렌더하지 않는다.
@@ -26,12 +28,3 @@ const App = () => {
   );
 };
 export default App;
-// class Routes extends React.Component {
-//   render() {
-//     return (
-
-//     );
-//   }
-// }
-
-// export default Routes;

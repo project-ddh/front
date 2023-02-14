@@ -22,7 +22,6 @@ export default function Main() {
       .get("http://localhost:3001/products")
       .then(function (response) {
         setItemData(response.data);
-        console.log("메인 메이지 Itemdata", response.data);
       })
       .catch(function (error) {
         console.log(error);

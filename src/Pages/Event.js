@@ -1,32 +1,42 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
+import { useDispatch } from "react-redux";
 
 // material-ui
 import { Box, Grid, Stack, Typography } from "@mui/material";
-
+import { Image } from "mui-image";
 // project import
 import OrdersTable from "../Components/Orderstable";
 import ApexChart from "../Components/ApexChart";
 import MainCard from "../Components/MainCard";
 import AnalyticEcommerce from "../Components/AnalyticEcommerce";
+import { setEvent } from "../redux/EventSlice";
+import BidStates from "../Components/BidStates";
 
 export default function Event() {
   const productId = useParams().productId;
   const token = localStorage.getItem("token");
   const [itemData, setItemData] = React.useState([]);
-  React.useEffect(() => {
-    axios
-      .get(`http://localhost:3001/products/event/${productId}`, {
-        headers: { Authorization: token },
-      })
-      .then(function (response) {
-        setItemData(response.data);
-        console.log("이벤트 상세페이지 response ", response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  const dispatch = useDispatch();
+
+  const fetchItemData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/products/event/${productId}`,
+        {
+          headers: { Authorization: token },
+        }
+      );
+      setItemData(response.data);
+      console.log("이벤트 페이지", response.data);
+      dispatch(setEvent(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchItemData();
   }, []);
 
   return (
@@ -99,11 +109,12 @@ export default function Event() {
                 display: "block",
                 backgroundColor: "primary.dark",
               }}>
-              <img
+              <Image
                 width={"100%"}
                 src={
                   "https://revelyshop.com/data/item/1616996298/thumb-7Ji17ZmU67mo3333_800x800.jpg"
                 }
+                alt="product image"
               />
             </MainCard>
           </Grid>
@@ -114,11 +125,13 @@ export default function Event() {
                 width: "92%",
                 height: "92%",
                 mt: 2,
-                overflowX: "auto",
-                position: "relative",
-                display: "block",
-                backgroundColor: "primary.dark",
-              }}></MainCard>
+                // overflowX: "auto",
+                // position: "relative",
+                // display: "block",
+                // backgroundColor: "primary.dark",
+              }}>
+              <BidStates />
+            </MainCard>
           </Grid>
           <Grid item xs={6} md={3}>
             <Grid container alignItems="center" justifyContent="space-between">
