@@ -13,6 +13,7 @@ function BidStates() {
   const [exportAmount, setExportAmount] = useState("");
   const userId = localStorage.getItem("userId");
   console.log("로컬스토리지 겟", userId);
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       setExportAmount(Number(amount).toLocaleString());
