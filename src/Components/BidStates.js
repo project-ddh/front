@@ -8,6 +8,7 @@ import MainCard from "../Components/MainCard";
 
 import { io } from "socket.io-client";
 const socket = io.connect("http://localhost:3001/raffles");
+
 function BidStates() {
   const [amount, setAmount] = useState("");
   const [exportAmount, setExportAmount] = useState("");

@@ -10,6 +10,7 @@ import {
   TableContainer,
   TableRow,
 } from "@mui/material";
+
 import { io } from "socket.io-client";
 const socket = io.connect("http://localhost:3001/raffles");
 
@@ -36,7 +37,6 @@ function formatTimestamp(timestamp) {
 
 export default function OrderTable() {
   const id = useParams().raffleId;
-  console.log(id);
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
@@ -49,6 +49,7 @@ export default function OrderTable() {
       socket.off("bidList");
     };
   }, []);
+
   return (
     <Box>
       <TableContainer
