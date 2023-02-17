@@ -18,7 +18,7 @@ export default function Main() {
   const [itemData, setItemData] = useState([]);
   React.useEffect(() => {
     axios
-      .get("http://prachang.shop/raffles")
+      .get("https://prachang.shop/raffles")
       .then(function (response) {
         setItemData(response.data.data);
         console.log("main Axios response Data", response.data.data);

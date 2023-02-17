@@ -7,7 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import MainCard from "../Components/MainCard";
 
 import { io } from "socket.io-client";
-const socket = io.connect("http://prachang.shop/raffles");
+const socket = io.connect("https://prachang.shop/raffles");
 
 function BidStates() {
   const [amount, setAmount] = useState("");
