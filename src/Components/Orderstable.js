@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 
 import { io } from "socket.io-client";
-const socket = io.connect("http://localhost:3001/raffles");
+const socket = io.connect("http://prachang.shop/raffles");
 
 function createData(userId, Bid, time) {
   const formattedTime = formatTimestamp(time);
