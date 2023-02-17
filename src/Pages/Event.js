@@ -20,7 +20,6 @@ export default function Event() {
   const token = localStorage.getItem("token");
   const [itemData, setItemData] = useState([]);
   const dispatch = useDispatch();
-
   const fetchItemData = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/raffles/${id}`, {

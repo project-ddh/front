@@ -14,7 +14,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
-
 export default function Main() {
   const [itemData, setItemData] = useState([]);
   React.useEffect(() => {
@@ -28,9 +27,7 @@ export default function Main() {
         console.log(error);
       });
   }, []);
-
   const navigate = useNavigate();
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

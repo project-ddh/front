@@ -23,7 +23,6 @@ function BidStates() {
       // emit a socket event to the server
     }
   };
-
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap" }}>
       <Stack width="100%" sx={{ mt: 1 }}>
