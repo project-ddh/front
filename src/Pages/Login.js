@@ -22,7 +22,7 @@ export default function Login() {
     });
     axios
       .post(
-        "http://localhost:3001/users/login",
+        "http://prachang.shop/users/login",
         {
           userId: data.get("userId"),
           password: data.get("password"),
