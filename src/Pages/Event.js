@@ -22,7 +22,7 @@ export default function Event() {
   const dispatch = useDispatch();
   const fetchItemData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/raffles/${id}`, {
+      const response = await axios.get(`http://prachang.shop/raffles/${id}`, {
         headers: { Authorization: token },
       });
       setItemData(response.data.data);
